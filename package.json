@@ -4,7 +4,8 @@
   "description": "You ask a quastion, they provide answers, they vote on the best answers, and voila! you have an answer.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",

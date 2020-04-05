@@ -3,41 +3,89 @@
 const express = require('express');
 const router = express.Router();
 
-// Read questions
+//Read questions
 router.get('/', (req, res) => {
-
-  console.log('Can read questions');
-});
-
-// Create question
-router.post('/', (req, res) => {
-    console.log('Can Create question');
+    res.json({ response: 'I have a GET request' });
   });
-
-  //Read answers
-router.get('/:qID/answers', (req, res) => {
-    console.log('Can Read answers');
+  
+  //create questions
+  router.post('/', (req, res) => {
+    res.json({
+      response: 'I have a POST request /Question',
+      body: req.body.color
+    });
   });
-// Create answers
-router.post('/:qID/answers', (req,res) => {
-    console.log('Can Create answers');
+  
+  //Read specific question
+  router.get('/:qID', (req, res) => {
+    res.json({
+      response: 'I have a GET request',
+      body: 'You sent me a specific get request',
+      questionId: req.params.qID,
+      questionId: req.params.qID
+    });
   });
-
-// Update answers
-router.put('/:qID/answers/:aID', () => {
-    console.log('Can Update answers');
+  
+  //create answer to specfic qn
+  router.post('/:qID/answers', (req, res) => {
+    res.json({
+      response: 'I have a POST request to answer a question',
+      questionId: req.params.qID,
+      body: req.body
+    });
   });
-
-  // Delete answers
+  //Read answer to specfic qn
+  router.get('/:qID/answers', (req, res) => {
+    res.json({
+      response: 'I have a GET request to read answers',
+      questionId: req.params.qID,
+      body: req.body
+    });
+  });
+  
+  //Edit specific answer
+  router.put('/:qID/answers/:aID', (req, res) => {
+    res.json({
+      response: 'I have a PUT request to edit answer',
+      questionId: req.params.qID,
+      answerID: req.params.aID,
+      body: req.body
+    });
+  });
+  
+  //Delete answer to specfic qn
   router.delete('/:qID/answers/:aID', (req, res) => {
-    console.log('Can Delete answers');
+    res.json({
+      response: 'I have a DELETE request to delete answer',
+      questionId: req.params.qID,
+      answerID: req.params.aID
+    });
   });
-
-  // Vote answers
-  router.post('/:qID/answers/:aID/vote-:dir', (req, res) => {
-    console.log('Can Vote answers');
-  }); 
-
+  
+  //Vote answer to specfic qn
+  router.post(
+    '/:qID/answers/:aID/vote-:dirr',
+    (req, res, next) => {
+      // if (req.params.dirr.search('/^(up|down)$/') === -1) {
+      if (req.params.dirr !== 'up' || req.params.dirr !== 'down') {
+        next();
+      } else {
+        let err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+      }
+    },
+    (req, res) => {
+      res.json({
+        response: 'I have a POST request to vote answer',
+        questionId: req.params.qID,
+        answerID: req.params.aID,
+        voteDirection: req.params.dirr,
+        body: req.body
+      });
+    }
+  );
+  
 
 //export router
 module.exports = router;
