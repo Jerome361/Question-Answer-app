@@ -11,10 +11,16 @@ let AnswerSchema = new Schema({
     updatedAt: { type: Date, default: Date.now },
     vote: { type: Number, default: 0 },
   });
-  
+
 //Create question schema (Parent)
 let QuestionSchema = new Schema({
     text: String,
     createdAt: { type: Date, default: Date.now },
     answers: [AnswerSchema],
   });
+
+//Model
+let Question = mongoose.model('Question', QuestionSchema);
+
+//Export model
+module.exports.Question = Question;
