@@ -33,6 +33,17 @@ db.once('open', () => {
   console.log('db connection successful');
 });
 
+//Set CORS- Cross Oorigin Resource Sharing
+appp.use((req,res,next)=>{
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  if(req.method === "OPTIONS"){
+    res.header("Access-Control_allow-Methods", "PUT, POST, DELETE");
+    return res.status(200).json({});
+  }
+  next();
+});
+
 //route handler middleware
 app.use('/question', routes);
 
